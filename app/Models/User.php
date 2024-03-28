@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -42,4 +44,22 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    // Define la relación en la que un usuario pertenece a un solo rol.
+    public function role(): BelongsTo
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    // Define la relación en la que un usuario puede dar muchos comentarios.
+    public function userComments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    // Define la relación en la que un usuario puede dar muchas calificaciones.
+    public function userRatings(): HasMany
+    {
+        return $this->hasMany(Rating::class);
+    }
 }
